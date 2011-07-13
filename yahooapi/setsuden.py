@@ -3,8 +3,14 @@
 
 from yahoo_api import YahooApi
 
-class LatestPowerUsage(YahooApi):
+class Setsuden(YahooApi):
+  def rowset(self):
+    raise Exception, "method unexists."
+
+class LatestPowerUsage(Setsuden):
   entry_point="http://setsuden.yahooapis.jp/v1/Setsuden/latestPowerUsage"
+  root_key = 'ElectricPowerUsage'
+  row_key = "Usage"
   query_strings=[
     ('area'     , 'tokyo')
    ,('datetime' , False)
@@ -15,8 +21,9 @@ class LatestPowerUsage(YahooApi):
   	 "Area", "Usage", "Capacity", "Date", "Hour"
   ]
 
-class ElectricPowerForecast(YahooApi):
+class ElectricPowerForecast(Setsuden):
   entry_point="http://setsuden.yahooapis.jp/v1/Setsuden/electricPowerForecast"
+  root_key = 'ElectricPowerForecasts'
   query_strings=[
      ('output'  , 'json')
     ,('callback', False)
@@ -34,4 +41,10 @@ class ElectricPowerForecast(YahooApi):
   attributes_fields = [
     "totalForecastsAvailable", "totalForecastsReturned", "firstForecastsPosition"
   ]
+  def hits(self):
+    return self._result_object[self.root_key]['@totalForecastsReturned']
+  def count(self):
+    return self._result_object[self.root_key]['@totalForecastsAvailable']
+  def offset(self):
+    return self._result_object[self.root_key]['@firstForecastsPosition']
 # LatestPowerUsage

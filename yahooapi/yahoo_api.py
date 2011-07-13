@@ -7,10 +7,16 @@ import urllib
 import time
 
 class YahooApi:
-  appid="<YOUR_APP_ID>"
+  appid=""
   entry_point=""
   query_strings=[]
   response_fields=[]
+  
+  _result_object = {}
+  
+  root_key = ""
+  row_key=''
+  
   _result_buffer=[]
   def __init__(self):
     self.query_strings.append(('appid', self.appid))
@@ -37,17 +43,39 @@ class YahooApi:
       curl.perform()
       curl.close()
       rows = json.loads("".join(self._result_buffer))
+      self._result_object = rows
       return rows
     except ValueError, err:
       print "[ERROR]", err
     return False
 	
-  def query(self, cf, args=[]):
+  def query(self, args=[]):
     for i in range(0,3):
       rows = self._query(args)
       if rows != False:
-        cf(rows)
         break
       else:
         time.sleep(1)
         print "retry"
+  
+  def attributes(self, key=""):
+    if self.root_key == "" or self.root_key not in self._result_object:
+      return False
+    
+    root = self._result_object[self.root_key]
+    if 'attributes' in root:
+      if key != '' and key in root['attributes']:
+        return root['attributes'][key]
+      else:
+        return root['attributes']
+  
+  def count(self):
+    return self.attributes("totalResultsReturned")
+  def hits(self):
+    return self.attributes("totalResultsAvailable")
+  def offset(self):
+    return self.attributes("firstResultPosition")
+  def rowset(self):
+    return self._result_object[self.root_key][self.row_key]
+  def row(self):
+    return self._result_object[self.root_key]

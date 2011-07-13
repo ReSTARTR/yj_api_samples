@@ -5,6 +5,8 @@ from yahoo_api import YahooApi
 
 class Volunteers(YahooApi):
   entry_point="http://shinsai.yahooapis.jp/v1/volunteers"
+  root_key = "Messages"
+  row_key = "Message"
   query_strings=[
     ('results' , 30)
    ,('start'   , 1)
@@ -24,6 +26,8 @@ class Volunteers(YahooApi):
 class ArchiveSearch(YahooApi):
   entry_point="http://shinsai.yahooapis.jp/v1/Archive/search"
   # output = xml/php/json
+  root_key = "ArchiveData"
+  row_key = 'Result'
   query_strings=[
      ('output'  , 'json') # xml/php/json
     ,('callback', False)
@@ -46,7 +50,7 @@ class ArchiveSearch(YahooApi):
     ,('ru_lat'  , False)
     ,('ru_lon'  , False)
     ,('hard_flag'  , 'false')
-    #,('sort'    , '+cre_time') # -cre_time / +cre_time / -org_time / + org_time
+    #,('sort'    , '+cre_time') # -cre_time / +cre_time / -org_time / +org_time
 
   ]
   attributes_fields = [
@@ -78,6 +82,8 @@ class ArchiveSearch(YahooApi):
 
 class ArchiveArea(YahooApi):
   entry_point="http://shinsai.yahooapis.jp/v1/Archive/area"
+  root_key = "AreaData"
+  row_key = 'Result'
   query_strings=[
      ('output'  , 'json')
     ,('callback', False)
