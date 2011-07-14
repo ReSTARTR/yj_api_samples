@@ -42,9 +42,8 @@ class YahooApi:
     try:
       curl.perform()
       curl.close()
-      rows = json.loads("".join(self._result_buffer))
-      self._result_object = rows
-      return rows
+      self._result_object = json.loads("".join(self._result_buffer))
+      return True
     except ValueError, err:
       print "[ERROR]", err
     return False
@@ -52,11 +51,10 @@ class YahooApi:
   def query(self, args=[]):
     for i in range(0,3):
       rows = self._query(args)
-      if rows != False:
+      if rows == True:
         break
-      else:
-        time.sleep(1)
-        print "retry"
+      time.sleep(1)
+      print "retry"
   
   def attributes(self, key=""):
     if self.root_key == "" or self.root_key not in self._result_object:
@@ -70,11 +68,11 @@ class YahooApi:
         return root['attributes']
   
   def count(self):
-    return self.attributes("totalResultsReturned")
+    raise Exception, "undefined"
   def hits(self):
-    return self.attributes("totalResultsAvailable")
+    raise Exception, "undefined"
   def offset(self):
-    return self.attributes("firstResultPosition")
+    raise Exception, "undefined"
   def rowset(self):
     return self._result_object[self.root_key][self.row_key]
   def row(self):

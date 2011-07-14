@@ -3,7 +3,15 @@
 
 from yahoo_api import YahooApi
 
-class Volunteers(YahooApi):
+class Shinsai(YahooApi):
+  def count(self):
+    return self.attributes("totalResultsReturned")
+  def hits(self):
+    return self.attributes("totalResultsAvailable")
+  def offset(self):
+    return self.attributes("firstResultPosition")
+
+class Volunteers(Shinsai):
   entry_point="http://shinsai.yahooapis.jp/v1/volunteers"
   root_key = "Messages"
   row_key = "Message"
@@ -23,7 +31,7 @@ class Volunteers(YahooApi):
   ]
 # ShinsaiVolunteers
 
-class ArchiveSearch(YahooApi):
+class ArchiveSearch(Shinsai):
   entry_point="http://shinsai.yahooapis.jp/v1/Archive/search"
   # output = xml/php/json
   root_key = "ArchiveData"
@@ -80,7 +88,7 @@ class ArchiveSearch(YahooApi):
   ]
 # ShinsaiVolunteers
 
-class ArchiveArea(YahooApi):
+class ArchiveArea(Shinsai):
   entry_point="http://shinsai.yahooapis.jp/v1/Archive/area"
   root_key = "AreaData"
   row_key = 'Result'
