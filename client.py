@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from yahooapi import yahoo_api
-yahoo_api.YahooApi.appid="MOrzLIKxg67mBHMbU1E260ye7dxgd6hCfHBGd6oGRVimzf_4qa_EntfgSLZNIk6KJg--"
+yahoo_api.YahooApi.appid=""
 
 ############################################
 from yahooapi import shinsai

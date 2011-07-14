@@ -114,7 +114,8 @@ class ArchiveArea(Shinsai):
   	 u"CountAfter", 
   	 u"Name", 
   	 u"NameKana", 
-  	 u"Lat", u"Lon"
+  	 u"Lat", 
+  	 u"Lon"
   ]
   attributes_fields = [
     u'totalResultsReturned', 
